@@ -1,0 +1,43 @@
+<html>
+    <head>
+
+
+    </head>
+    <body onload="w3Load()">
+        <div style="display: none;" id="latti"><%= latt %></div id="latti">
+        <div style="display: none;" id="longi"><%= long %></div>
+
+        <div id="w3docs-map" style="width:100%;height:800px;display: none"></div>
+    </body>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1LoOvq7e6NJnxJdk2aUi3KZrY5WqY-jI">
+    </script>
+    <script>
+       var map;
+    function initialize(){
+        
+        var latt=parseFloat(document.getElementById("latti").innerText);
+       var long=parseFloat(document.getElementById("longi").innerText);
+       console.log(latt,long); 
+       var prop = {
+            center:new google.maps.LatLng(latt,long),
+            zoom:15,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+           };
+        return new google.maps.Map(document.getElementById("w3docs-map"), prop);
+    }
+    setTimeout(function()
+    {
+        map = initialize();
+    },5000);
+
+    function w3Load()
+    {  
+        
+        
+        document.getElementById("w3docs-map").style.display = 'block';
+        // document.getElementById("w3docs-map").focus();
+        google.maps.event.trigger(map, 'resize');
+    }
+    </script>
+</html>

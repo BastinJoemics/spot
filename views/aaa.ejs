@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+     
+      #map {
+        height: 80%;
+      }
+    
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .lat {
+          color: white;
+          display: hide;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div>
+        <h3 style="color: rgb(56, 16, 151);"><a href="/index">GO TO DASHBOARD</a></h3>
+    </div>
+      <table border="1">
+       <thead>
+        <tr>
+          <th>Lat</th><th>Lng</th>
+          </tr>
+        </thead>
+
+     <tbody id="contents">
+      </tbody>
+    </table>
+    <span id='variableJSON' hidden>
+      <%= JSON.stringify(new1); %>
+  </span> 
+
+<script>
+  
+
+  var cityCircles = [];
+// var lattitudes=[];
+// var longitudes=[];
+var newpost = JSON.parse(window.document.getElementById('variableJSON').innerText);
+console.log(newpost,"neeew");
+
+var citymap=newpost;
+
+console.log(citymap);
+var map,infoWindow;
+
+function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 12.837310, lng: 80.225180},
+          zoom:10,
+          mapTypeId: 'terrain'
+        });
+     for (var city in citymap) {
+       var a1=citymap[city];
+       var center1={};
+       var ab=[1,2,3];
+       var ag;
+       var bool;
+       var str1,str2;
+         var color;
+       for(var aa in a1)
+       {
+       
+          if (a1.hasOwnProperty(aa))
+           {
+        // console.log (aa, a1[aa]);
+            var ak=10;
+          if(a1[aa]=="\"lat\"")
+          {
+            console.log(aa,"lat");
+            ag=aa%10;
+            
+            for(var h=0;h<ag;h++)
+            {
+              ak=ak*10;
+            }
+            var tt=aa/ak;
+            console.log(tt);
+            ab.splice(1,0,tt);
+          }
+          if(a1[aa]=="\"lng\"")
+          {
+            console.log(aa,"lng");
+            ag=aa%10;
+            for(var h=0;h<ag;h++)
+            {
+              ak=ak*10;
+            }
+            var tt=aa/ak;
+            console.log(tt);
+            ab.splice(2,0,tt);
+          }
+          if(aa=="paint")
+          {
+           bool=a1[aa];
+           console.log("bool");
+          }
+      }
+       center1={
+        lat:parseFloat(ab[1]),
+        lng:parseFloat(ab[2]),
+        }
+        
+        if(bool)
+        {
+          color='none';
+          str1=0;
+          str2=0;
+        }
+        else if (!bool)
+        {
+          color='red';
+          str1=0.8;
+          str2=0.35;
+        }
+        console.log(bool,color,"bool");
+
+}
+       
+      
+      console.log('center',center1);
+   
+      var cityCircle = new google.maps.Circle({
+      strokeColor: color,
+      strokeOpacity: str1,
+      strokeWeight: 2,
+      fillColor: color,
+      fillOpacity: str2,
+      map: map,
+      center:center1,
+      radius: Math.sqrt(27148562) * 0.05
+    });
+    cityCircles.push(cityCircle);
+
+    }
+        infoWindow = new google.maps.InfoWindow;
+
+        
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+         
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+}
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+       }
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1LoOvq7e6NJnxJdk2aUi3KZrY5WqY-jI&callback=initMap">
+    </script>
+  </body>
+</html>
+

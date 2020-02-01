@@ -1,0 +1,239 @@
+<html>
+    <head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+     .aaa{ 
+        /* background-color: #B03060; */
+        /* border-radius: 45px; */
+        text-transform: uppercase;
+        text-decoration:line-through;
+        /* text-decoration-color: black; */
+        text-shadow: black;
+        
+ } 
+ .btn-green{
+     background-color:green;
+ }
+
+.btn-yellow{
+     background-color: yellow;
+ }
+ .btn-green:hover{
+     /* opacity: 20; */
+     background-color: lightgreen;
+ }
+
+.btn-yellow:hover{
+     background-color: lightgoldenrodyellow;
+ }   
+ h1{
+     color: cornflowerblue;
+     /* text-shadow: black; */
+     text-shadow: -1px 1px 0 #000, 
+                          1px 1px 0 #000, 
+                         1px -1px 0 #000,
+                        -1px -1px 0 #000; 
+     /* text-shadow: "h-shadow v-shadow blur-radius color|none|initial|inherit"; */
+     text-align: center;
+     font-family:'Times New Roman', Times, serif;
+     font-style:normal;
+
+ }
+    .container1{
+        border-radius: 20px;
+        background-color:burlywood;
+        padding-top:14px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 1px;
+        margin-top: 15px;
+        /* margin-left: 50px;
+        margin-right: 50px; */
+    }
+
+    table{
+        border-radius: 20px;
+        border-top-left-radius: 20px;
+        border: 0px;
+    }
+    button{
+        width: 80px;text-align: center;
+        }
+    #buttonss{
+        margin-left: 43%;
+        
+    }
+    </style>
+    </head>
+    <body>
+        <h1><b>COMPLAINTS</b></h1>
+       <a style="margin-left: 33%;" href="/index" class="btn btn-secondary">DASHBOARD</a> 
+        
+        <div class="container1">
+        <table class="table table-hover table-dark table-striped">
+            <thead>
+            <tr style="background-color:#B03060 ; border-radius: 20px;" class="aaa">
+                
+                <td style="border-top-left-radius: 20px;">
+                  <b>  lattitude</b>
+                </td>
+                <td>
+                  <b>   longitude</b>
+                </td>
+               
+                <td>
+                <b>    id</b>
+                </td>
+                
+                <td>
+                  <b>  area</b>
+                </td>
+                <td>
+                  <b>  city</b>
+                </td>
+                <td>
+                    <b>depth</b>
+                  </td>
+                <td>
+                  <b>  location</b>
+                </td>
+                <td>  </td>
+                <td>
+                  <b> name</b>
+                </td>
+                <td style="border-top-right-radius:20px ;">image</td style="border-top-right-radius:20px ;">
+            </tr>
+        </thead>
+        <% var db=new1 %>
+        <% var count=0 %>
+        <% var ui,tt,tl; %>
+        <% for(var id in db){  %>
+            <% count++; %>
+            <% var str="https://firebasestorage.googleapis.com/v0/b/poth-d635d.appspot.com/o/" %>
+            <% var str1="?alt=media" %>
+     
+           <tr>
+                    <% var ab=db[id]; %>
+                <% for(var props in ab){ %>
+
+                    <% if(ab[props]=='"lat"'){ %>
+                        
+                        <td id='<%="lattitude"+count%>'>
+                            
+                        <%  var ag=props%10; %>
+                        <% var ak=1 %>
+                        <%for(var h=0;h<ag;h++){%>
+                            <% ak=ak*10; %>
+                        <% } %>
+                            <% props=parseInt(props/10); %>
+                            <% tt=(props/ak); %>
+                            <% console.log(tt); %>
+                            <%= tt %>
+                        </td>
+                        
+                    <% } %>
+                    <% if(ab[props]=='"lng"'){ %>
+                           
+                        <td id='<%="longitude"+count %>'>
+                            
+                            <%  var ag=props%10; %>
+                        <% var ak=1 %>
+                        <%for(var h=0;h<ag;h++){%>
+                            <% ak=ak*10; %>
+                        <% } %>
+                        <% props=parseInt(props/10); %>
+                            <% tl=props/ak; %>
+                            <% console.log(tl); %>
+                            <%= tl %>
+                        </td>
+                        
+                    <% } %>
+                    
+                    <% if(props=="UID"){ %>
+                        <td>
+                        <%= ab[props].slice(1,-1) %>
+                        <% ui=ab[props].slice(1,-1); %>
+                        </td>
+                        
+                    <% } %>
+                    <% if(props=="depth"){ %>
+                        <td>
+                        <%= ab[props] %>
+                        </td>
+                    <% } %>
+                    <% if(props=="area"){ %>
+                        <td>
+                        <%= ab[props].slice(1,-1) %>
+                        </td>
+                    <% } %>
+                    <% if(props=="city"){ %>
+                        <td>
+                        <%= ab[props].slice(1,-1) %>
+                        </td>
+                    <% } %>
+                    <% if(props=="location"){ %>
+                        <td>
+                            <%= ab[props].slice(1,-1) %>
+                        </td>
+                        
+                        <td>
+                        <button onclick="w3Load(this.value)" value="<%= count%>" style="width: 80px;text-align: center;" class="btn btn-primary">run</button>
+                            
+                       </td>
+                        
+                    <% } %>
+                    <% if(props=="name"){ %>
+                        <td>
+                        <%= ab[props].slice(1,-1) %>
+                        </td>
+                    <% } %>
+                    
+                <% } %>
+                
+                <td>
+                    <% var img=str+tt+tl+ui+str1; %>
+                    <%= img %>
+                    <img src="<%= img %>" width="200px" height="200px">
+                </td>
+            </tr>
+            <% } %>
+        </table>
+    </div> 
+    <div id="w3docs-map" style="width:500px;height:380px;display: none"></div>
+    </body>
+    
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1LoOvq7e6NJnxJdk2aUi3KZrY5WqY-jI">
+    </script> -->
+   <script>
+    //    var latt=12;
+    //    var long=80;
+    //    var map;
+       
+    // function initialize(){
+    //     console.log(latt,long);
+    //     var prop = {
+    //         center:new google.maps.LatLng(latt,long),
+    //         zoom:15,
+    //         mapTypeId:google.maps.MapTypeId.ROADMAP
+    //        };
+    //     return new google.maps.Map(document.getElementById("w3docs-map"), prop);
+    // }
+    // setTimeout(function()
+    // {
+    //     map = initialize();
+    // },5000);
+     function w3Load(count3)
+     {
+        // console.log(count3); 
+        latt=parseFloat(document.getElementById("lattitude"+count3).innerText);
+        long=parseFloat(document.getElementById("longitude"+count3).innerText);
+        // window.location = '/newlocation/lat/'+latt+'/long/'+long;
+        window.open('/newlocation/lat/'+latt+'/long/'+long, '_blank');
+        
+    //     document.getElementById("w3docs-map").style.display = 'block';
+    //     document.getElementById("w3docs-map").focus();
+    //     google.maps.event.trigger(map, 'resize');
+    }
+    </script>
+</html>
